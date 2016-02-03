@@ -1,0 +1,1 @@
+Foswiki::Plugins::JQueryPlugin,>=0,perl,Required, used for all tours.

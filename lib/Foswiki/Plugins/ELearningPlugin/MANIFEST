@@ -1,0 +1,9 @@
+!noci
+data/Sandbox/PluginTestELearningPlugin.txt 0644
+data/System/ELearningPlugin.txt 0644
+data/System/VarEXAMPLETAG.txt 0644
+lib/Foswiki/Plugins/ELearningPlugin.pm 0644
+lib/Foswiki/Plugins/ELearningPlugin/Config.spec 0644
+pub/System/JQueryPlugin/plugins/elearning/jquery-qwikitour.css 0777
+pub/System/JQueryPlugin/plugins/elearning/jquery-qwikitour.js 0777
+templates/foswiki.elearn.tmpl 0644

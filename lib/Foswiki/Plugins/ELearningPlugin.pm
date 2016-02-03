@@ -61,7 +61,7 @@ versions.
 
 =cut
 
-package Foswiki::Plugins::ElearningPlugin;
+package Foswiki::Plugins::ELearningPlugin;
 
 # Always use strict to enforce variable scoping
 use strict;
@@ -171,10 +171,10 @@ sub initPlugin {
     # seen in the topic text.
     Foswiki::Func::registerTagHandler( 'QWIKITOUR', \&_QWIKITOUR);
 	
-	Foswiki::Func::addToZone( 'head', 'MYTOUR_CSS',
-	'<link rel="stylesheet" href="/pub/System/JQueryPlugin/plugins/elearning/jquery.qwikitour.css">');
+	Foswiki::Func::addToZone( 'head', 'QWIKITOUR_CSS',
+	'<link rel="stylesheet" href="/pub/System/JQueryPlugin/plugins/elearning/jquery-qwikitour.css">');
 	
-	Foswiki::Func::addToZone( 'script', 'MYTOUR', '<script type="text/javascript" src="/pub/System/JQueryPlugin/plugins/elearning/jquery.qwikitour.1.0.0.js"></script>', 'JQUERYPLUGIN::FOSWIKI');
+	Foswiki::Func::addToZone( 'script', 'QWIKITOUR', '<script type="text/javascript" src="/pub/System/JQueryPlugin/plugins/elearning/jquery-qwikitour.js"></script>', 'JQUERYPLUGIN::FOSWIKI');
 	
 	
    
