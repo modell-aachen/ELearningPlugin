@@ -1,0 +1,25 @@
+%TMPL:INCLUDE{"foswiki"}%
+%{}%
+%TMPL:INCLUDE{"DisplayUser"}%
+
+%TMPL:DEF{"main"}%
+<div class="foswikiPage2">
+	%TMPL:P{"sidebar"}%
+	<div id="modacWrapper">
+		<div id="modacSecondWrapper">
+			%TMPL:P{"topbar"}%%TMPL:P{"modacTabs"}%
+			<div id="modacContentsWrapper">
+				<div id="modacContents">
+					<div id="modacContentHeading">%TMPL:P{"top"}%
+					</div>
+					%TMPL:P{"patterntopiccontents"}%
+				</div>
+			</div>
+			%TMPL:P{"bottombar"}%
+		</div>
+	</div>
+	%QWIKITOUR%
+</div>
+%TMPL:END%
+
+%{ ---------------------------- /pagetitle and breadcrumb ---------------------------- }%
