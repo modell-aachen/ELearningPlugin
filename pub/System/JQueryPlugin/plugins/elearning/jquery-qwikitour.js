@@ -1,4 +1,3 @@
-
 /**
  * Q.Wiki-Tour - jQuery plugin to create an easy virtual tour across any website, but optimized for Q.Wiki.  
  * Copyright (c) 2015, Thiemo Leonhardt  
@@ -35,7 +34,10 @@
  * 
  * Optional: change step at the step-number
  * 
- * -> ToDo 1.1 validation of user input (hat to be clicked or had to be filled)
+ * -> ToDo pause mode to interrupt not stop the tour
+ * -> ToDo Bug Menu StepNumbers
+ * -> ToDo validation of user input (hat to be clicked or had to be filled)
+ * 1.1 add no highlight attribut
  * 1.0 change to uniform names and regEx for the tourfile no javascript possible
  * 0.9 Add cookie control of different tours
  * 0.8 Get the standard jqtabpane elements of the webapp automatic and css adjustments
@@ -71,8 +73,8 @@
 				next: 'Next',			// next step. 
 				prev: 'Prev',			// previous step.
 				start: 'Start',			// backward to the first set step.
-				finish: 'Finish',		// stop presentation.
-				menu: true				// show/ hide the dropdown menu with the steps
+				finish: 'Close',		// stop presentation.
+				menu: false				// show/ hide the dropdown menu with the steps -> does not work with stepnumber #bug 
 			},
 			
 			autoStart: false,			// (true/ false) if true, start the tour automaticaly 
@@ -88,7 +90,7 @@
 			afterPlay: null,			// callback method, called always after has played any step
 			onFinish: null,				// callback method, called when my-tour is finished
 			
-			debug: true				// (true/false) if set TRUE, log on console each step		
+			debug: true					// (true/false) if set TRUE, log on console each step		
 		},
 		
 		methods = {
@@ -120,12 +122,18 @@
 					// foreach step found, remove it from the page and store it on the container
 					for( i in s ) 
 					{
-
 						// only store valid steps
 						if ($($(s[i]).data('id')).length || String($(s[i]).data('id')).substring(0,2) == "qw") 
 						{
 							stepContainer[stepContainer.length] = $(s[i]).clone();
-						}					
+							console.log('Success');
+							console.log($(s[i]));
+						}
+						else{
+							console.log('fail');
+							console.log($(s[i]));
+						}
+						
 						$(s[i]).remove();
 					}
 					
@@ -566,15 +574,22 @@
 					// add highlighting of the selected element
 					if (tipPos != 'none')
 					{
-						el.addClass('qwikitour-highlight');
-
-						if ( el.css('background-color') == 'rgba(0, 0, 0, 0)' || el.css('background-color') == 'transparent' )
-						{
-							el.data('reset-background', true);
-							el.css('background-color', 'rgba(255, 255, 255, 1)');
+						if (tip.data('no_highlight') != 'no'){
+							el.addClass('qwikitour-highlight');
+						
+							if ( el.css('background-color') == 'rgba(0, 0, 0, 0)' || el.css('background-color') == 'transparent' )
+							{	
+								el.data('reset-background', true);
+								el.css('background-color', 'rgba(255, 255, 255, 1)');
+							}
+							
+							if ( el.css('color') == 'rgba(0, 0, 0, 0)' )
+							{	
+								el.data('reset-text', true);
+								el.css('color', 'rgba(255, 255, 255, 1)');
+							}
 						}
-						
-						
+							
 						if ( tip.data('action') == 'click' ){
 							
 							_clickable(el);
@@ -586,7 +601,6 @@
 							}
 						}
 					}
-			
 					
 					me.fadeIn('fast');
 					
