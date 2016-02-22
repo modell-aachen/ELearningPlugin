@@ -213,11 +213,12 @@ sub _QWIKITOUR{
 		$tourpref .= '	
 			<!-- Run the plugin -->
 			<script type="text/javascript">
-				jQuery(document).ready(function() {				
 				
-					var start_qwiki = \'<li><a href=# id=tour>Tour starten</a></li>\';
-					$(\'#modacButtonsRIGHT\').prepend(start_qwiki);
-				
+				var start_qwiki = \'<li><a href=# id=tour>Tour starten</a></li>\';
+				$(\'#modacButtonsRIGHT\').prepend(start_qwiki);
+
+				jQuery(document).ready(function() {
+					
 					$(\'#tour\').qwikitour({
 						start: 0,					// start at which step
 							
@@ -244,6 +245,12 @@ sub _QWIKITOUR{
 
 						beforePlay: null,			// callback method, called always before play any step
 						afterPlay: null,			// callback method, called always after has played any step
+						
+						onPause: function() {		// callback method, called when my-tour is finished
+							$(\'#tour\').html(\'Tour fortsetzen\');
+							console.log(\'pause\');
+						},
+						
 						onFinish: function() {		// callback method, called when my-tour is finished
 							$(\'#tour\').html(\'Tour starten\');
 							console.log(\'finish\');
@@ -251,8 +258,9 @@ sub _QWIKITOUR{
 					
 						debug: true				// (true/false) if set TRUE, log on console each step
 					});
-		
-				});
+
+				});		
+
 			</script>
 		
 		';

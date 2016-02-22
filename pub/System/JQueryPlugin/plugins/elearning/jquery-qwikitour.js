@@ -34,9 +34,9 @@
  * 
  * Optional: change step at the step-number
  * 
- * -> ToDo pause mode to interrupt not stop the tour
- * -> ToDo Bug Menu StepNumbers
+ * -> ToDo Bug DropDown-Menu StepNumbers if you get directly to the steps
  * -> ToDo validation of user input (hat to be clicked or had to be filled)
+ * 1.2 pause mode to interrupt not stop the tour and TasksApi support
  * 1.1 add no highlight attribut
  * 1.0 change to uniform names and regEx for the tourfile no javascript possible
  * 0.9 Add cookie control of different tours
@@ -56,7 +56,7 @@
 	
     "use strict";
     
-	var version = '1.0.0',
+	var version = '1.2.0',
 	
 		stepContainer = [],
 		stepCurrent = 0,
@@ -64,6 +64,7 @@
 		stepDummy = false,				// dummy to get the direction
 		stepLastElement = false,		// dummy last element is Tip-Pos != down
 		tourTrigger = null,
+		pause = false,
 		
 		defaults = {
 			
@@ -127,11 +128,11 @@
 						{
 							stepContainer[stepContainer.length] = $(s[i]).clone();
 							console.log('Success');
-							console.log($(s[i]));
+							console.log($(s[i]).data('id'));
 						}
 						else{
 							console.log('fail');
-							console.log($(s[i]));
+							console.log($(s[i]).data('id'));
 						}
 						
 						$(s[i]).remove();
@@ -236,9 +237,8 @@
 	// stop the tour
 	function _stop(options) 
 	{			
-		stepCurrent = 0;
-		stepShow = 0;
-				
+
+	
 		// visual effects 
 		$('#qwikitour-tooltip').fadeOut('fast');
 		$('#qwikitour-messages').fadeOut('fast');
@@ -255,10 +255,26 @@
 		
 		$("html, body").animate({scrollTop: triggerOffset}, 'fast');
 		
-		if (options.onFinish && 'function' == typeof(options.onFinish)) 
-		{
-			options.onFinish();
+		if(!pause){
+			stepCurrent = 0;
+			stepShow = 0;
+			
+			if (options.onFinish && 'function' == typeof(options.onFinish)) 
+			{
+				options.onFinish();
+			}
 		}
+		else{
+			pause=false;
+			stepCurrent++;
+			
+			if (options.onPause && 'function' == typeof(options.onPause)) 
+			{
+				options.onPause();
+			}
+		}		
+		
+
 	}; // _stop
 	
 	// says when a object has (or is into an object with) fixed position
@@ -366,6 +382,40 @@
 
 				console.log(ellist.length);
 				el = ellist.eq(num-1); // convert to cs count
+			}
+			else if(tip.data('id').substring(2,10) == 'tasksapi'){ // taskapi content selectors
+					var num = 1;
+					var ellist;
+				
+					if(tip.data('id').substring(10,20) == 'btn-filter'){	
+						ellist = $("div#btn-filter");
+					}
+					else if(tip.data('id').substring(10,21) == 'btn-newtask'){	
+						ellist = $("a.tasks-btn-create");;
+					}
+					else if(tip.data('id').substring(10,18) == 'tab-date'){	
+						ellist = $("table#tasks-table-open>thead>tr>th:nth-child(1)");
+					}
+					else if(tip.data('id').substring(10,18) == 'tab-kind'){	
+						ellist = $("table#tasks-table-open>thead>tr>th:nth-child(2)");
+					}
+					else if(tip.data('id').substring(10,25) == 'tab-responsible'){	
+						ellist = $("table#tasks-table-open>thead>tr>th:nth-child(3)");
+					}
+					else if(tip.data('id').substring(10,19) == 'tab-titel'){	
+						ellist = $("table#tasks-table-open>thead>tr>th:nth-child(4)");
+					}
+					else if(tip.data('id').substring(10,24) == 'tab-targetdate'){	
+						ellist = $("table#tasks-table-open>thead>tr>th:nth-child(5)");
+					}
+					else if(tip.data('id').substring(10,19) == 'tab-state'){	
+						ellist = $("table#tasks-table-open>thead>tr>th:nth-child(6)");
+					}
+					else if(tip.data('id').substring(10,15) == 'table'){	
+						ellist = $("table#tasks-table-open");
+					}
+					
+					el = ellist.eq(num-1); // convert to cs count
 			}
 			else{ // usual case
 				el = $(tip.data('id')); // get the element
@@ -600,6 +650,18 @@
 								});
 							}
 						}
+						
+						if (  tip.data('action') == 'click-pause' ){
+							
+							_clickable(el);
+							
+							el.click(function(){
+								//$('#tour').html("Tour fortsetzen");
+								pause = true;
+								$('#qwikitour-button-finish').click();
+							});													
+						}
+						
 					}
 					
 					me.fadeIn('fast');
@@ -756,8 +818,8 @@
 			finish.click(function(e){
 				e.preventDefault();
 				(stepCurrent >= stepContainer.length - 1) ? _setCookie("tour",1,1 ) : _setCookie("tour",0,1 );
-				stepCurrent = 0; // reset
-				stepShow = 0;
+				//stepCurrent = 0; // reset
+				//stepShow = 0;
 				stepDummy = false;
 				stepLastElement = false;
 				_stop(o);
