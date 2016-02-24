@@ -1,0 +1,10 @@
+| *Name* | *Type* | *Size* | *Value* | *Default* | *Description* | *Attributes *|
+| TopicTitle | text | 50 ||| Title of this tour | M |
+| StartTopic | topic | 50 ||| The topic this tour starts at | |
+
+||||||||
+||||||||
+||||||||
+||||||||
+||||||||
+||||||||
