@@ -59,6 +59,7 @@ sub _QWIKITOUR {
 
   my $format = $params->{format} || '<a href="#" id="$id">%MAKETEXT{"Start tour"}%</a>';
   $format =~ s/\$id\b/$elemid/;
+  $format = '' if $session->{query}->param('el_tourid');
 
   my ($tourWeb, $tourTopic) = Foswiki::Func::normalizeWebTopicName(undef, $tourid);
   my ($tourMeta, $tourText) = Foswiki::Func::readTopic($tourWeb, $tourTopic);
@@ -68,7 +69,7 @@ sub _QWIKITOUR {
   if ($session->inContext('SafeWikiSignable')) {
       Foswiki::Plugins::SafeWikiPlugin::permitInlineCode($js);
   }
-  return "$format<ul id=\"$content_elemid\" class=\"foswikiHidden\">$tourText</ul><script type=\"application/javascript\">$js</script>";
+  return "$format<ul id=\"$content_elemid\" class=\"foswikiHidden\"><literal>$tourText</literal></ul><script type=\"application/javascript\"><literal>$js</literal></script>";
 }
 
 1;

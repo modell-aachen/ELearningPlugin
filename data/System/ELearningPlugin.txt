@@ -15,23 +15,10 @@ One line description, required for extensions repository catalog.
 
 ---++ List tours
 
-The following section lists tours available for the current topic. You can include it from a suitable place in your template(s).
-
-%STARTSECTION{name="tours"}%%SOLRSEARCH{
-  "form:*ELearningTourForm field_StartTopic_s:(%IF{"defined el_tourid" then="%URLPARAM{"el_tourid"}%" else="%BASETOPIC% OR %BASEWEB%.%BASETOPIC%"}%)"
-  fields="webtopic"
-  format="$percntQWIKITOUR{\"$webtopic\" step=\"%URLPARAM{"el_step" default=""}%\"}$percnt"
+%STARTSECTION{name="tours"}%%FORMATLIST{
+  "%URLPARAM{"el_tourid" default="%ELEARNINGTOURS{default=""}%"}%" null=""
+  format="$percntQWIKITOUR{\"$1\" step=\"%URLPARAM{"el_step" default=""}\"}$percnt"
 }%%ENDSECTION{name="tours"}%
-
-Alternatively, the following section contains the same information wrapped in a twisty element.
-
-%STARTSECTION{name="tours_twisty"}%%SOLRSEARCH{
-  "form:*ELearningTourForm field_StartTopic_s:(%IF{"defined el_tourid" then="%URLPARAM{"el_tourid"}%" else="%BASETOPIC% OR %BASEWEB%.%BASETOPIC%"}%)"
-  fields="webtopic"
-  header="$percntTWISTY{id=\"elearningToursTwisty\" firststart=\"%display{default="hide"}%\" remember=\"on\" noscript=\"hide\" showlink=\"%MAKETEXT{"Guided tours"}%\" hidelink=\"%MAKETEXT{"Guided tours"}%\" showimgleft=\"%ICONURLPATH{arrow-right}%\" hideimgleft=\"%ICONURLPATH{arrow-down}%\" linkclass=\"patternTwistyButton\"}$percnt"
-  format="$percntQWIKITOUR{\"$webtopic\" step=\"%URLPARAM{"el_step" default=""}%\"}$percnt"
-  footer="$percntENDTWISTY$percnt"
-}%%ENDSECTION{name="tours_twisty"}%
 
 ---++ Plugin Info
 
