@@ -17,7 +17,7 @@ One line description, required for extensions repository catalog.
 
 %STARTSECTION{name="tours"}%%FORMATLIST{
   "%URLPARAM{"el_tourid" default="%ELEARNINGTOURS{default=""}%"}%" null=""
-  format="$percntQWIKITOUR{\"$1\" step=\"%URLPARAM{"el_step" default=""}\"}$percnt"
+  format="$percntQWIKITOUR{\"$1\" step=\"%URLPARAM{"el_step" default=""}%\"}$percnt"
 }%%ENDSECTION{name="tours"}%
 
 ---++ Plugin Info

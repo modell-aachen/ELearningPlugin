@@ -59,7 +59,7 @@ sub _QWIKITOUR {
 
   my $format = $params->{format} || '<a href="#" id="$id">%MAKETEXT{"Start tour"}%</a>';
   $format =~ s/\$id\b/$elemid/;
-  $format = '' if $session->{query}->param('el_tourid');
+  $format = '' if $session->{request}->param('el_tourid');
 
   my ($tourWeb, $tourTopic) = Foswiki::Func::normalizeWebTopicName(undef, $tourid);
   my ($tourMeta, $tourText) = Foswiki::Func::readTopic($tourWeb, $tourTopic);
